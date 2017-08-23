@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2>姓名：{{ entry.name|safe }}</h2>个人简介：{{ entry.info|safe }}<br/>
+        性别：{{ entry.sex|safe }}<br/>学生号：{{ entry.stdnum|safe }}
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+  {% if session.logged_in %}
+  {% endif %}
+{% endblock %}

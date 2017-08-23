@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        中科大招生服务队
+    </title>
+    <style>
+        body{TEXT-ALIGN: center;font-family: sans-serif; background: #eee;}
+        .center{ MARGIN-RIGHT: auto;
+        MARGIN-LEFT: auto;
+        height:500px;
+        width:500px;
+        vertical-align:middle;
+        border-style: solid;
+        border-width: 2px;
+        }
+        a{ color: #377ba8; }
+        .img{float: left}
+        .img_size{margin:10px;
+        width:400px;
+        height:300px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="img">
+        <h3>暑假志愿者招募</h3>
+        <a href="{{ url_for('summer') }}"><img class="img_size" src="static/image/summer.jpg"
+                                              alt="暑假志愿者招募↓" ></a><br/>
+    </div>
+    <div class="img">
+        <h3>寒假志愿者报名</h3>
+        <a href="{{ url_for('winter') }}" ><img class="img_size" src="static/image/snow.jpg" alt="寒假志愿者报名" ></a><br/>
+    </div>
+    <div class="img">
+        <h3>新社员报名</h3>
+        <a href="{{ url_for('new') }}"><img class="img_size" src="static/image/new_member.png" alt="新社员报名" ></a><br/>
+    </div>
+    <div class="img">
+        <h3>老社员登陆</h3>
+        <a href="{{ url_for('login') }}"><img class="img_size" src="static/image/member.jpg" alt="老社员登陆" ></a><br/>
+    </div>
+    <div class="img">
+        <h3>管理员登录</h3>
+        <a href="{{ url_for('manager') }}"><img class="img_size" src="static/image/administrator.jpg" alt="管理员登录" ></a><br/>
+    </div>
+</div>
+</body>
+</html>

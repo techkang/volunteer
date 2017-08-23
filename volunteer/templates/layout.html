@@ -1,0 +1,17 @@
+<!doctype html>
+<title>报名管理</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<div class=page>
+  <h1>招生志愿队招新报名管理界面</h1>
+  <div class=metanav>
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">log in</a>
+  {% else %}
+    <a href="{{ url_for('logout') }}">退出登录</a>
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+  {% endif %}
+  </div>
+  {% block body %}{% endblock %}
+</div>

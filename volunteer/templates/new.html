@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新社员报名</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body{TEXT-ALIGN: center;}
+        .center{ MARGIN-RIGHT: auto;
+        MARGIN-LEFT: auto;
+        height:500px;
+        width:500px;
+        vertical-align:middle;
+        border-style: solid;
+        border-width: 2px;
+        }
+        table{border-collapse:collapse;}
+    </style>
+</head>
+<body>
+<div class="center">
+    <form  action="{{ url_for('new') }}" method="POST">
+        <h1>欢迎报名中科大招生服务队！</h1><br/>
+        <table align="center" border="solid">
+            <tr>
+                <td>学号</td>
+                <td><input type="text" name="stdnum" autofocus></td>
+            </tr>
+            <tr>
+                <td>姓名</td>
+               <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td><input type="radio" name="sex" value="male" checked>男
+                    <input type="radio" name="sex" value="female">女
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td><input type="email" name="email" value="@mail.ustc.edu.cn" checked></td>
+            </tr>
+            <tr>
+                <td>手机号</td>
+                <td><input type="tel" name="phone"></td>
+            </tr>
+            <tr>
+                <td>个人简介</td>
+                <td><textarea name="info" rows=5 cols=40></textarea></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="提交"></td>
+                <td><input type="reset" value="重置"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

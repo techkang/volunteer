@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>招生服务队管理员界面</title>
+    <style>
+        body{TEXT-ALIGN: center;}
+        .center{ MARGIN-RIGHT: auto;
+        MARGIN-LEFT: auto;
+        height:500px;
+        width:500px;
+        vertical-align:middle;
+        border-style: solid;
+        border-width: 2px;
+        }
+        table{border-collapse:collapse;}
+    </style>
+</head>
+<body>
+ {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+<div>
+    <form action="{{url_for('manager')}}" method=post>
+        <h3>请登录：</h3><br/>
+        <table align="center" border="solid">
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" name="username"><br/></td>
+            </tr>
+            <tr>
+                <td>密码：</td>
+               <td><input type="password" name="password"><br/>
+            </tr>
+        </table>
+        <br/>
+        <br/>
+        <input type="submit" value="提交">
+        <input type="reset" value="重置">
+    </form>
+</div>
+</body>
+</html>

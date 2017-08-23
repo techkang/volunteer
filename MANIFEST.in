@@ -1,0 +1,3 @@
+graft volunteer/templates
+graft volunteer/static
+include volunteer/schema.sql
