@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>暑假招生志愿者报名</title>
+    <title>新社员报名</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body{TEXT-ALIGN: center;}
+        .center{ MARGIN-RIGHT: auto;
+        MARGIN-LEFT: auto;
+        height:500px;
+        width:500px;
+        vertical-align:middle;
+        border-style: solid;
+        border-width: 2px;
+        }
+        .note{ MARGIN-RIGHT: auto;
+        MARGIN-LEFT: auto;
+        vertical-align:middle;
+        }
+        table{border-collapse:collapse;}
+    </style>
 </head>
 <body>
-报名尚未开启，敬请期待！
+<div class="center">
+    <form  action="{{ url_for('new') }}" method="POST">
+        <h1>欢迎注册暑假招生志愿者！</h1><br/>
+        <table align="center" border="solid">
+            <tr>
+                <td>学号</td>
+                <td><input type="text" name="stdnum" autofocus></td>
+            </tr>
+            <tr>
+                <td>姓名</td>
+               <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td><input type="radio" name="sex" value="male" checked>男
+                    <input type="radio" name="sex" value="female">女
+                </td>
+            </tr>
+            <tr>
+                <td>省份</td>
+               <td><input type="text" name="province"></td>
+            </tr>
+            <tr>
+                <td>毕业中学</td>
+               <td><input type="text" name="school"></td>
+            </tr>
+            <tr>
+                <td>最后一门考试时间</td>
+               <td><input type="date" name="last_exam" ></td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td><input type="email" name="email" value="@mail.ustc.edu.cn" checked></td>
+            </tr>
+            <tr>
+                <td>手机号</td>
+                <td><input type="tel" name="phone"></td>
+            </tr>
+            <tr>
+                <td>个人简介</td>
+                <td><textarea name="info" rows=5 cols=40></textarea></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="提交"></td>
+                <td><input type="reset" value="重置"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div>
+    <p>
+    <h4>注意事项：</h4>
+        <ul type="None">
+            <li>1.test</li>
+            <li>2.test</li>
+            <li>3.test</li>
+        </ul>
+    </p>
+</div>
+<!--
+summer sql command:
+drop table if exists entries;
+create table entries (
+  id integer primary key autoincrement,
+  stdnum text not null,
+  name text not null,
+  province text not null,
+  school text not null,
+  last_exam text not null,
+  sex text not null,
+  email text not null,
+  phone text not null,
+  info text not null
+);
+-->
 </body>
 </html>

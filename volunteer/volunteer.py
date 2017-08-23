@@ -33,10 +33,12 @@ def init_db():
 
 
 @app.cli.command('initdb')
+@app.route('/initdb')
 def initdb_command():
     """Initializes the database."""
     init_db()
     print('Initialized the database.')
+    render_template('index.html')
 
 
 def get_db():
@@ -65,23 +67,48 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/summer')
+@app.route('/summer', methods=['GET', 'POST'])
 def summer():
-    return render_template('summer.html')
+    return "报名尚未开放，感谢关注！"
+    error = None
+    if request.method == 'POST':
+        db = get_db()
+        db.execute(
+            'insert into entries (stdnum,name,province,school,last_exam,sex,email,phone,info) values (?,?,?,?,?,?,?,?,?)',
+            [request.form['stdnum'], request.form['name'], request.form['province'], request.form['school'],
+             request.form['last_exam'], request.form['sex'], request.form['email'], request.form['phone'],
+             request.form['info']])
+        db.commit()
+        flash('New student successfully registered!')
+        return redirect(url_for('finish'))
+    return render_template('summer.html', error=error)
 
 
-@app.route('/winter')
+@app.route('/winter', methods=['GET', 'POST'])
 def winter():
-    return render_template('winter.html')
+    return "报名尚未开放，感谢关注！"
+    error = None
+    if request.method == 'POST':
+        db = get_db()
+        db.execute(
+            'insert into entries (stdnum,name,province,school,last_exam,sex,email,phone,info) values (?,?,?,?,?,?,?,?,?)',
+            [request.form['stdnum'], request.form['name'], request.form['province'], request.form['school'],
+             request.form['last_exam'], request.form['sex'], request.form['email'], request.form['phone'],
+             request.form['info']])
+        db.commit()
+        flash('New student successfully registered!')
+        return redirect(url_for('finish'))
+    return render_template('winter.html', error=error)
 
 
-@app.route('/new', methods=['GET','POST'])
+@app.route('/new', methods=['GET', 'POST'])
 def new():
-    error=None
-    if request.method=='POST':
+    error = None
+    if request.method == 'POST':
         db = get_db()
         db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
-                   [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],request.form['phone'], request.form['info']])
+                   [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],
+                    request.form['phone'], request.form['info']])
         db.commit()
         flash('New student successfully registered!')
         return redirect(url_for('finish'))
@@ -92,19 +119,21 @@ def new():
 def finish():
     return render_template('finish.html')
 
-@app.route('/manager',methods=['GET','POST'])
+
+@app.route('/manager', methods=['GET', 'POST'])
 def manager():
-    error=None
-    if request.method=='POST':
-        if request.form['username']!=app.config['USERNAME'] or \
-            request.form['password']!=app.config['PASSWORD']:
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME'] or \
+                        request.form['password'] != app.config['PASSWORD']:
             # error='用户名或密码错误！'
-            error='Invalid username or password!'
+            error = 'Invalid username or password!'
         else:
             session['logged_in'] = True
             flash('You were logged in')
             return redirect(url_for('show_entries'))
     return render_template('manager.html', error=error)
+
 
 @app.route('/show_entries')
 def show_entries():
@@ -121,6 +150,7 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
