@@ -15,10 +15,31 @@
         }
         table{border-collapse:collapse;}
     </style>
+    <script>
+        function validate_required(field)
+{
+with (field)
+  {
+  if (value==null||value=="")
+    {alert("有必填选项未填写");return false}
+  else {return true}
+  }
+}
+
+function validate_form(thisform)
+{
+with (thisform)
+  {
+  if (validate_required(stdnum)==true&&validate_required(name)==true&&validate_required(sex)==true&&validate_required(email)==true&&validate_required(phone)==true&&validate_required(info)==true)
+    {return true}
+  else {return false}
+  }
+}
+    </script>
 </head>
 <body>
 <div class="center">
-    <form  action="{{ url_for('new') }}" method="POST">
+    <form  action="{{ url_for('new') }}" onsubmit="return validate_form(this)" method="POST">
         <h1><br/>欢迎报名中科大招生服务队！</h1><br/><br/>
         <table align="center" border="solid">
             <tr>
@@ -37,7 +58,7 @@
             </tr>
             <tr>
                 <td>邮箱</td>
-                <td><input type="email" name="email" value="@mail.ustc.edu.cn" checked></td>
+                <td><input type="email" name="email" value="@mail.ustc.edu.cn"></td>
             </tr>
             <tr>
                 <td>手机号</td>
