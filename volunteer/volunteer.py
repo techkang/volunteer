@@ -114,7 +114,7 @@ def new():
             error = 'The length of phone number should be 11'
             flag = 1
         elif len(request.form['info']) < 10:
-            error = 'The length of person information should be 10'
+            error = 'The length of person information should not be less than 10'
             flag = 1
         if flag == 0:
             db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
