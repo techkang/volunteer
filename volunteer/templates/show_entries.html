@@ -10,5 +10,6 @@
   {% endfor %}
   </ul>
   {% if session.logged_in %}
+<a href="{{ url_for('excel') }}">导出excel</a>
   {% endif %}
 {% endblock %}

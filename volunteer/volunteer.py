@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 # all the imports
 import os
-import sqlite3
+import sqlite3,xlrd,xlwt
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-    render_template, flash
+    render_template, flash,send_from_directory
 
 app = Flask(__name__)  # create the application instance :)
 app.config.from_object(__name__)  # load config from this file , flaskr.py
@@ -151,8 +151,10 @@ def show_entries():
     if not session.get('logged_in'):
         abort(401)
     db = get_db()
-    cur = db.execute('select stdnum, name, sex, info from entries order by id desc')
+    cur = db.execute('select stdnum, name, sex, phone, info from entries order by id desc')
     entries = cur.fetchall()
+    if len(entries)>10:
+        entries=entries[:10]
     return render_template('show_entries.html', entries=entries)
 
 
@@ -161,6 +163,32 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('index'))
+
+@app.route('/excel')
+def excel():
+    db=get_db()
+    cur=db.cursor()
+    workbook=xlwt.Workbook()
+    sheet=workbook.add_sheet('Sheet1')
+    row_list=[]
+    cur.execute('select stdnum, name, sex, email, phone, info from entries order by id desc')
+    row_list=cur.fetchall()
+    rowlen=len(row_list)
+    for i in range(rowlen):
+        for j in range(6):
+            sheet.write(i,j,row_list[i][j])
+    workbook.save('list.xls')
+    cur.close()
+    db.close()
+    return redirect(url_for('download'))
+
+@app.route('/download')
+def download(filename='list.xls'):
+    if not session.get('logged_in'):
+        abort(401)
+    # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
+    directory = os.getcwd()  # 假设在当前目录
+    return send_from_directory(directory, filename, as_attachment=True)
 
 
 if __name__ == '__main__':
