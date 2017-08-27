@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
     <title>新社员报名</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
@@ -14,6 +13,7 @@
         border-width: 2px;
         }
         table{border-collapse:collapse;}
+        .error          { background: white; padding: 0.5em; color: red}
     </style>
     <script>
         function validate_required(field)
@@ -37,7 +37,8 @@ with (thisform)
 }
     </script>
 </head>
-<body>
+{% block body %}
+  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
 <div class="center">
     <form  action="{{ url_for('new') }}" onsubmit="return validate_form(this)" method="POST">
         <h1><br/>欢迎报名中科大招生服务队！</h1><br/><br/>
@@ -82,5 +83,4 @@ with (thisform)
         </ol>
     </div>
 </div>
-</body>
-</html>
+{% endblock %}

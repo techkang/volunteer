@@ -104,14 +104,25 @@ def winter():
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     error = None
+    flag = 0
     if request.method == 'POST':
         db = get_db()
-        db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
-                   [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],
-                    request.form['phone'], request.form['info']])
-        db.commit()
-        flash('New student successfully registered!')
-        return redirect(url_for('finish'))
+        if len(request.form['stdnum']) != 10:
+            error = 'The length of student number should be 10!'
+            flag = 1
+        elif len(request.form['phone']) != 11:
+            error = 'The length of phone number should be 11'
+            flag = 1
+        elif len(request.form['info']) < 10:
+            error = 'The length of person information should be 10'
+            flag = 1
+        if flag == 0:
+            db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
+                       [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],
+                        request.form['phone'], request.form['info']])
+            db.commit()
+            flash('New student successfully registered!')
+            return redirect(url_for('finish'))
     return render_template('new.html', error=error)
 
 
@@ -153,4 +164,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    app.run( debug=True)
