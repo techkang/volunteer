@@ -108,8 +108,8 @@ def new():
     flag = 0
     if request.method == 'POST':
         db = get_db()
-        if len(request.form['stdnum']) != 10:
-            error = 'The length of student number should be 10!'
+        if len(request.form['stdnum']) != 8:
+            error = 'The length of student number should be 8!'
             flag = 1
         elif len(request.form['phone']) != 11:
             error = 'The length of phone number should be 11'
@@ -120,8 +120,8 @@ def new():
         if flag == 0:
             try:
                 db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
-                           [request.form['stdnum'].encode('utf-8').upper().decode('utf-8'), request.form['name'],
-                            request.form['sex'], request.form['email'],request.form['phone'], request.form['info']])
+                           [request.form['stdnum'], request.form['name'],
+                            request.form['sex'], request.form['email'], request.form['phone'], request.form['info']])
                 db.commit()
             except exc.IntegrityError as e:
                 error = 'Register failed, because this student number has been registered!'
@@ -209,5 +209,5 @@ def download(filename='list.xls'):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0', debug=True)
     # app.run(debug=True)
