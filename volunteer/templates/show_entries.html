@@ -11,5 +11,7 @@
   </ul>
   {% if session.logged_in %}
 <a href="{{ url_for('excel') }}">导出excel</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{{ url_for('logout') }}">退出登录</a>
   {% endif %}
 {% endblock %}
