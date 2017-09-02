@@ -12,6 +12,14 @@
         border-style: solid;
         border-width: 2px;
         }
+        .body-android{TEXT-ALIGN: center;}
+        .center{ MARGIN-RIGHT: auto;
+        MARGIN-LEFT: auto;
+        vertical-align:middle;
+        width:360px;
+        border-style: solid;
+        border-width: 2px;
+        }
         table{border-collapse:collapse;}
         .error          { background: white; padding: 0.5em; color: red}
     </style>
@@ -39,7 +47,7 @@ with (thisform)
 </head>
 {% block body %}
   {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
-<div class="center">
+<div class="body-android">
     <form  action="{{ url_for('new') }}" onsubmit="return validate_form(this)" method="POST">
         <h1><br/>欢迎报名中科大招生服务队！</h1><br/><br/>
         <table align="center" border="solid">
