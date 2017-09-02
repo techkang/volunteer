@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 # all the imports
 import os
-import sqlite3,xlrd,xlwt
+import sqlite3, xlrd, xlwt
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-    render_template, flash,send_from_directory
+    render_template, flash, send_from_directory
+from sqlalchemy import exc
 
 app = Flask(__name__)  # create the application instance :)
 app.config.from_object(__name__)  # load config from this file , flaskr.py
@@ -117,10 +118,24 @@ def new():
             error = 'The length of person information should not be less than 10'
             flag = 1
         if flag == 0:
-            db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
-                       [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],
-                        request.form['phone'], request.form['info']])
-            db.commit()
+            try:
+                db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
+                           [request.form['stdnum'].encode('utf-8').upper().decode('utf-8'), request.form['name'],
+                            request.form['sex'], request.form['email'],request.form['phone'], request.form['info']])
+                db.commit()
+            except exc.IntegrityError as e:
+                error = 'Register failed, because this student number has been registered!'
+                return render_template('new.html', error=error)
+            except Exception as e:
+                if str(e) == 'UNIQUE constraint failed: entries.stdnum':
+                    error = 'Register failed,because this student number has been registered!'
+                else:
+                    error = 'Register failed! Because ' + str(e)
+                return render_template('new.html', error=error)
+            # db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
+            #            [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],
+            #             request.form['phone'], request.form['info']])
+            # db.commit()
             flash('New student successfully registered!')
             return redirect(url_for('finish'))
     return render_template('new.html', error=error)
@@ -153,8 +168,8 @@ def show_entries():
     db = get_db()
     cur = db.execute('select stdnum, name, sex, phone, info from entries order by id desc')
     entries = cur.fetchall()
-    if len(entries)>10:
-        entries=entries[:10]
+    if len(entries) > 10:
+        entries = entries[:10]
     return render_template('show_entries.html', entries=entries)
 
 
@@ -164,23 +179,25 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('index'))
 
+
 @app.route('/excel')
 def excel():
-    db=get_db()
-    cur=db.cursor()
-    workbook=xlwt.Workbook()
-    sheet=workbook.add_sheet('Sheet1')
-    row_list=[]
+    db = get_db()
+    cur = db.cursor()
+    workbook = xlwt.Workbook()
+    sheet = workbook.add_sheet('Sheet1')
+    row_list = []
     cur.execute('select stdnum, name, sex, email, phone, info from entries order by id desc')
-    row_list=cur.fetchall()
-    rowlen=len(row_list)
+    row_list = cur.fetchall()
+    rowlen = len(row_list)
     for i in range(rowlen):
         for j in range(6):
-            sheet.write(i,j,row_list[i][j])
+            sheet.write(i, j, row_list[i][j])
     workbook.save('list.xls')
     cur.close()
     db.close()
     return redirect(url_for('download'))
+
 
 @app.route('/download')
 def download(filename='list.xls'):
@@ -193,3 +210,4 @@ def download(filename='list.xls'):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
+    # app.run(debug=True)

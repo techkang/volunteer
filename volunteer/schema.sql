@@ -1,6 +1,6 @@
 create table entries (
   id integer primary key autoincrement,
-  stdnum text not null,
+  stdnum text unique,
   name text not null,
   sex text not null,
   email text not null,
