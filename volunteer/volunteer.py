@@ -118,24 +118,41 @@ def new():
             error = 'The length of person information should not be less than 10'
             flag = 1
         if flag == 0:
+            # try:
+            #     db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
+            #                [request.form['stdnum'], request.form['name'],
+            #                 request.form['sex'], request.form['email'], request.form['phone'], request.form['info']])
+            #     db.commit()
+            # except exc.IntegrityError as e:
+            #     error = 'Register failed, because this student number has been registered!'
+            #     return render_template('new.html', error=error)
+            # except Exception as e:
+            #     if str(e) == 'UNIQUE constraint failed: entries.stdnum':
+            #         error = 'Register failed,because this student number has been registered!'
+            #     else:
+            #         error = 'Register failed! Because ' + str(e)
+            #     return render_template('new.html', error=error)
+            db = get_db()
+            cur = db.execute('select stdnum from entries order by id desc')
+            entries = cur.fetchall()
+            now_stdnum = request.form['stdnum']
+            for entry in entries:
+                print now_stdnum
+                print entry[0].decode('utf-8')
+                if now_stdnum == entry[0].decode('utf-8'):
+                    error = 'Register failed, because student number PB' + now_stdnum + ' has been registered!'
+                    return render_template('new.html', error=error)
             try:
                 db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
                            [request.form['stdnum'], request.form['name'],
                             request.form['sex'], request.form['email'], request.form['phone'], request.form['info']])
                 db.commit()
-            except exc.IntegrityError as e:
-                error = 'Register failed, because this student number has been registered!'
-                return render_template('new.html', error=error)
             except Exception as e:
                 if str(e) == 'UNIQUE constraint failed: entries.stdnum':
                     error = 'Register failed,because this student number has been registered!'
                 else:
                     error = 'Register failed! Because ' + str(e)
                 return render_template('new.html', error=error)
-            # db.execute('insert into entries (stdnum,name,sex,email,phone,info) values (?,?,?,?,?,?)',
-            #            [request.form['stdnum'], request.form['name'], request.form['sex'], request.form['email'],
-            #             request.form['phone'], request.form['info']])
-            # db.commit()
             flash('New student successfully registered!')
             return redirect(url_for('finish'))
     return render_template('new.html', error=error)
@@ -168,9 +185,9 @@ def show_entries():
     db = get_db()
     cur = db.execute('select stdnum, name, sex, phone, info from entries order by id desc')
     entries = cur.fetchall()
-    if len(entries) > 10:
-        entries = entries[:10]
-    return render_template('show_entries.html', entries=entries)
+    length = len(entries)
+    entries = entries[:10]
+    return render_template('show_entries.html', entries=entries, length=length)
 
 
 @app.route('/logout')
@@ -186,7 +203,6 @@ def excel():
     cur = db.cursor()
     workbook = xlwt.Workbook()
     sheet = workbook.add_sheet('Sheet1')
-    row_list = []
     cur.execute('select stdnum, name, sex, email, phone, info from entries order by id desc')
     row_list = cur.fetchall()
     rowlen = len(row_list)
@@ -209,5 +225,5 @@ def download(filename='list.xls'):
 
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', debug=True)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
+    # app.run(debug=True)

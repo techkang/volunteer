@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-
+    <p>共有{{ length }}学生报名</p>
+  {% if length>10 %}
+    <p>此页面仅显示最近10条报名信息</p>
+  {% endif %}
   <ul class=entries>
   {% for entry in entries %}
     <li><h2>姓名：{{ entry.name|safe }}</h2>个人简介：{{ entry.info|safe }}<br/>
