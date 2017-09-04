@@ -13,28 +13,29 @@
         border-width: 2px;
         }
         table{border-collapse:collapse;}
-        .error          { background: white; padding: 0.5em; color: red}
+        .error{ background: white; padding: 0.5em; color: red}
     </style>
     <script>
         function validate_required(field)
-{
-with (field)
-  {
-  if (value==null||value=="")
-    {alert("有必填选项未填写");return false}
-  else {return true}
-  }
-}
+            {
+            with (field)
+                {
+                if (value==null||value=="")
+                    {alert("有必填选项未填写");return false}
+                else {return true}
+                }
+            }
 
-function validate_form(thisform)
-{
-with (thisform)
-  {
-  if (validate_required(stdnum)==true&&validate_required(name)==true&&validate_required(sex)==true&&validate_required(email)==true&&validate_required(phone)==true&&validate_required(info)==true)
-    {return true}
-  else {return false}
-  }
-}
+        function validate_form(thisform)
+        {
+        with (thisform)
+            {
+            if (validate_required(stdnum)&&validate_required(name)&&validate_required(sex)&&
+                validate_required(email)&&validate_required(phone)&&validate_required(info))
+                {return true}
+            else {return false}
+            }
+        }
     </script>
 </head>
 {% block body %}
@@ -44,30 +45,30 @@ with (thisform)
         <h1><br/>欢迎报名中科大招生服务队！</h1><br/><br/>
         <table align="center" border="solid">
             <tr>
-                <td>学号</td>
-                <td>PB<input type="text" name="stdnum" autofocus></td>
+                <td><label for="finput">学号</label></td>
+                <td>PB<input id="finput" type="text" name="stdnum" autofocus></td>
             </tr>
             <tr>
-                <td>姓名</td>
-               <td><input type="text" name="name"></td>
+                <td><label for="name">姓名</label></td>
+               <td><input id="name" type="text" name="name"></td>
             </tr>
             <tr>
                 <td>性别</td>
-                <td><input type="radio" name="sex" value="male" checked>男
-                    <input type="radio" name="sex" value="female">女
+                <td><input id="male" type="radio" name="sex" value="male" checked><label for="male">男</label>
+                    <input id="female" type="radio" name="sex" value="female"><label for="female">女</label>
                 </td>
             </tr>
             <tr>
-                <td>邮箱</td>
-                <td><input type="email" name="email" value="@mail.ustc.edu.cn"></td>
+                <td><label for="mail">邮箱</label></td>
+                <td><input id="mail" type="email" name="email" value="@mail.ustc.edu.cn"></td>
             </tr>
             <tr>
-                <td>手机号</td>
-                <td><input type="tel" name="phone"></td>
+                <td><label for="phone">手机号</label></td>
+                <td><input id="phone" type="tel" name="phone"></td>
             </tr>
             <tr>
-                <td>个人简介</td>
-                <td><textarea name="info" rows=10 cols=40></textarea></td>
+                <td><label for="info">个人简介</label></td>
+                <td><textarea id="info" name="info" rows=10 cols=40></textarea></td>
             </tr>
         </table>
         <br/>
