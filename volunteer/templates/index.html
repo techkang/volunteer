@@ -8,35 +8,15 @@
     </title>
     <style>
         body{TEXT-ALIGN: center;font-family: sans-serif; background: #eee;}
-        .center{ MARGIN-RIGHT: auto;
-        MARGIN-LEFT: auto;
-        height:500px;
-        width:500px;
-        vertical-align:middle;
-        border-style: solid;
-        border-width: 2px;
-        }
-        a{ color: #377ba8; }
-        .img{float: left}
-        .img_size{margin:10px;
-        width:400px;
-        height:300px;
-        }
-        img:hover
-        {
-        opacity:0.4;
-        }
     </style>
 </head>
 <body>
 <div>
-    <div class="img">
-        <h3>新社员报名</h3>
-        <a href="{{ url_for('new') }}"><img class="img_size" src="static/image/new_member.png" alt="新社员报名" ></a><br/>
+    <div>
+        <a href="{{ url_for('new') }}">新社员报名</a><br/>
     </div>
-    <div class="img">
-        <h3>管理员登录</h3>
-        <a href="{{ url_for('manager') }}"><img class="img_size" src="static/image/administrator.jpg" alt="管理员登录" ></a><br/>
+    <div>
+        <a href="{{ url_for('manager') }}">管理员登录</a><br/>
     </div>
 </div>
 </body>
